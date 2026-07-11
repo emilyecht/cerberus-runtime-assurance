@@ -7,9 +7,9 @@
   },
   {
     "component": "Synthetic independence-decay experiment",
-    "classification": "Implemented reproducible experiment",
+    "classification": "Implemented matched-model pipeline verification experiment",
     "evidence": "Fixed-seed Python script, separate calibration/evaluation ensembles, CSV/JSON/PNG outputs",
-    "limits": "Synthetic channels; residual correlation proxy, not full probabilistic FCOI."
+    "limits": "Matched detector/generator; verifies pipeline wiring, conservative-bound behavior, reproducibility, and illustrative authority transitions - not realistic detection difficulty."
   },
   {
     "component": "Adversarial Casebook",
@@ -26,14 +26,14 @@
   {
     "component": "Exact structural FCOI cut-set engine",
     "classification": "Specified, not implemented",
-    "evidence": "Formal definition in v3.3",
+    "evidence": "Formal definition in v3.4",
     "limits": "Requires causal graphs, FMEA inputs, and cut-set tooling."
   },
   {
     "component": "Probabilistic FCOI estimator",
     "classification": "Specified, not implemented",
-    "evidence": "Formal event ratio and uncertainty-bound rule in v3.3",
-    "limits": "Requires calibrated root-cause and propagation probability models."
+    "evidence": "Formal event ratio, reporting decomposition, uncertainty-bound rule, and marginal-health promotion guard in v3.4",
+    "limits": "Requires calibrated root-cause, propagation, and marginal failure-probability models."
   },
   {
     "component": "Conditional transfer entropy",
@@ -43,9 +43,9 @@
   },
   {
     "component": "Sentinel injection",
-    "classification": "Proposed and safety-case constrained",
-    "evidence": "Channel classes and acceptance tests specified",
-    "limits": "No hardware-in-the-loop validation or channel-specific safety case."
+    "classification": "Optional diagnostic extension; disabled by default",
+    "evidence": "Channel classes, gating constraints, and acceptance tests specified",
+    "limits": "Not load-bearing in baseline Vigil; no safety-case credit without an independent channel-specific hardware-in-the-loop safety case."
   },
   {
     "component": "Pilot shadow-mode red team",
@@ -56,7 +56,7 @@
   {
     "component": "Authority control law",
     "classification": "Prototype implementation plus formal specification",
-    "evidence": "Illustrative A3–A0 state transitions in lab; hysteresis/dwell law defined",
+    "evidence": "Illustrative A3-A0 state transitions in lab; hysteresis, dwell, and marginal-health promotion guard defined",
     "limits": "Thresholds are illustrative and not mission-certified."
   },
   {
