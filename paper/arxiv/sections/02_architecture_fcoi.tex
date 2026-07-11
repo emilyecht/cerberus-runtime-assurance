@@ -1,0 +1,89 @@
+\section{Architecture}
+CERBERUS separates mission intelligence, deterministic gating, survival authority, and evidence estimation. The separation is functional rather than merely replicated.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  node distance=11mm and 16mm,
+  box/.style={draw=cerbnavy, very thick, rounded corners=2mm, minimum width=43mm, minimum height=14mm, align=center, fill=cerblight},
+  ev/.style={draw=cerbteal, very thick, rounded corners=2mm, minimum width=43mm, minimum height=14mm, align=center, fill=white},
+  arr/.style={-{Latex[length=2.5mm]}, very thick, draw=cerbnavy},
+  earr/.style={-{Latex[length=2.5mm]}, thick, dashed, draw=cerbteal}
+]
+\node[box] (pilot) {\textbf{Pilot}\\adaptive planning\\proposes only};
+\node[box, right=of pilot] (watchdog) {\textbf{Watchdog}\\deterministic gate\\certified constraints};
+\node[box, right=of watchdog] (anchor) {\textbf{Anchor}\\minimum survivable\\authority floor};
+\node[ev, below=18mm of watchdog] (vigil) {\textbf{Vigil}\\non-authoritative evidence\\independence drift};
+\draw[arr] (pilot) -- node[above, font=\small]{proposals} (watchdog);
+\draw[arr] (watchdog) -- node[above, font=\small]{validated commands} (anchor);
+\draw[arr, bend left=22] (watchdog) to node[below, font=\scriptsize]{constraints and rejection reasons} (pilot);
+\draw[earr] (vigil) -- (watchdog);
+\draw[earr] (vigil) -- (anchor);
+\node[below=2mm of vigil, align=center, font=\scriptsize] {Evidence may reduce permission. It cannot execute, certify independence, or promote authority.};
+\end{tikzpicture}
+\caption{CERBERUS architecture. Information may be shared, but execution authority and failure mechanisms remain deliberately separated.}
+\label{fig:architecture}
+\end{figure}
+
+\paragraph{Pilot.} The Pilot performs adaptive reasoning, planning, and hypothesis generation. It may inspect deterministic constraints and pre-shape proposals, but it cannot execute commands, relax constraints, or write assurance evidence.
+
+\paragraph{Watchdog.} The Watchdog is a deterministic gate. It checks proposals against physics invariants, hard envelopes, and certified rules. Its value is not greater intelligence; its value is a different and auditable failure surface.
+
+\paragraph{Anchor.} The Anchor owns only the minimum mission-survivable action set: power-positive attitude, thermal survival, bounded orientation, authenticated contact, and bounded fault isolation. Its invariants are not overridable by Pilot, Watchdog, Vigil, or ground command.
+
+\paragraph{Vigil.} The Vigil estimates whether the layers remain failure-mode independent. It has no actuator path. Its baseline is passive monitoring; its evidence can decrease permission or declare evidence unknown, but cannot increase permission by itself.
+
+\section{Failure-Cause Overlap Index}
+\subsection{Failure classes and causal model}
+Let $I=\{P,W,A\}$ denote Pilot, Watchdog, and Anchor. Let $K$ be a set of consequence-relevant failure classes, such as unsafe trajectory acceptance, loss of safe attitude, violation of a power survival floor, or loss of authenticated recovery. For layer $i$, class $k$, and exposure interval $\Delta$, let $F_{i,k}(\Delta)$ denote failure of layer $i$ to perform its stated safety function.
+
+For each class $k$, let $G_k=(V_k,E_k)$ be a reviewed directed causal graph containing root causes, measured environmental variables, propagation mechanisms, and terminal layer failures. Structural causal modeling provides a vocabulary for explicit causal assumptions, while fault-tree practice supplies minimal cut-set accounting \cite{Pearl2009,Vesely1981}.
+
+\subsection{Structural FCOI}
+Let $\mathcal{M}_{i,k}$ be the family of minimal cut sets sufficient to raise $F_{i,k}$. The exact-match structural overlap between layers $i$ and $j$ is
+\begin{equation}
+\fcoi^{S}_{ij,k}=
+\frac{|\mathcal{M}_{i,k}\cap\mathcal{M}_{j,k}|}
+{|\mathcal{M}_{i,k}\cup\mathcal{M}_{j,k}|}.
+\label{eq:structural}
+\end{equation}
+Equation~\eqref{eq:structural} is defined only when the union is nonempty. If both cut-set families are empty, the result is \emph{not estimable}, not zero. Exact matching is transparent but can understate near-match cut sets that share most root causes. Therefore structural FCOI is a screening quantity and should be accompanied by a near-match census or a weighted incidence refinement. Fussell--Vesely and related importance measures provide one possible weighting basis \cite{Fussell1975,VanDerBorstSchoonakker2001}.
+
+\subsection{Probabilistic FCOI}
+Let $C_{ij,k}(\Delta)$ denote the event that both $F_{i,k}$ and $F_{j,k}$ occur through at least one shared modeled root cause during $\Delta$. Let $D_t$ denote the evidence available at time $t$. Define
+\begin{equation}
+\fcoi^{P}_{ij,k}(t;\Delta)=
+\frac{\Prob(C_{ij,k}(\Delta)\mid D_t)}
+{\Prob(F_{i,k}(\Delta)\cup F_{j,k}(\Delta)\mid D_t)}.
+\label{eq:prob}
+\end{equation}
+Because $C_{ij,k}\subseteq F_{i,k}\cup F_{j,k}$, Equation~\eqref{eq:prob} is equivalently the probability of shared-root joint failure conditioned on at least one layer failing. The union denominator is intentional: the metric describes the fraction of total pair failure exposure attributable to shared-root joint failure.
+
+This quantity is \textbf{not} a reliability-invariant dependence coefficient. The denominator changes with the marginal layer failure probabilities. Every operational report must therefore include
+\begin{equation}
+\left\{\overline{p}_{i,k},\overline{p}_{j,k},
+\overline{p}^{\,C}_{ij,k},
+\overline{p}^{\,\cup}_{ij,k},
+[\underline{\phi}_{ij,k},\overline{\phi}_{ij,k}]\right\},
+\label{eq:report}
+\end{equation}
+where the bars denote conservative upper bounds when applicable. Root-cause rates and propagation parameters may be updated from testing, environment exposure, maintenance history, and operating experience, consistent with established CCF practice \cite{Mosleh1998,MaKvarfordt2022}.
+
+\subsection{Pessimistic operational value and aggregation}
+The runtime value used for authority decisions is the upper defensible bound
+\begin{equation}
+\overline{\fcoi}_{ij,k}(t)=
+\operatorname{UCB}_{1-\alpha}\!\left(\fcoi^{P}_{ij,k}(t)\right).
+\label{eq:ucb}
+\end{equation}
+Higher overlap means less independence, so a lower confidence bound would flatter the system. Define an analogous triple-layer quantity and let
+\begin{equation}
+O_k(t)=\max\left\{
+\overline{\fcoi}_{PW,k},
+\overline{\fcoi}_{PA,k},
+\overline{\fcoi}_{WA,k},
+\overline{\fcoi}_{PWA,k}
+\right\}.
+\label{eq:aggregate}
+\end{equation}
+The maximum is deliberately conservative and auditable. If evidence is stale, internally inconsistent, or not estimable, the relevant class is treated as unknown rather than independent.

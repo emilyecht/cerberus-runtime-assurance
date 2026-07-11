@@ -1,0 +1,70 @@
+\documentclass[10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[margin=0.78in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,array,tabularx,longtable}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{authblk}
+\usepackage[numbers,sort&compress]{natbib}
+
+\definecolor{cerbnavy}{HTML}{172B4D}
+\definecolor{cerbteal}{HTML}{2B7A78}
+\definecolor{cerblight}{HTML}{EAF3F4}
+\definecolor{cerbred}{HTML}{8F2D2D}
+\definecolor{cerbgold}{HTML}{9A6500}
+
+\hypersetup{
+  pdftitle={CERBERUS: Runtime Independence Budgeting for Layered Assurance in Autonomous Systems},
+  pdfauthor={Emily Echterhoff},
+  pdfsubject={Runtime assurance, common-cause failure, autonomous systems},
+  pdfkeywords={runtime assurance, autonomous systems, common-cause failure, FCOI, spacecraft safety}
+}
+
+\title{\textbf{CERBERUS: Runtime Independence Budgeting for Layered Assurance in Autonomous Systems}\\[2mm]
+\large The Fourth Guarantee: Independence as a Runtime Quantity}
+\author{Emily Echterhoff}
+\affil{Independent Researcher}
+\date{July 2026\\\small Version 3.5 - arXiv submission manuscript}
+
+\newcommand{\fcoi}{\operatorname{FCOI}}
+\newcommand{\clip}{\operatorname{clip}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Athree}{\mathrm{A3}}
+\newcommand{\Atwo}{\mathrm{A2}}
+\newcommand{\Aone}{\mathrm{A1}}
+\newcommand{\Azero}{\mathrm{A0}}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Layered runtime assurance architectures rely on an assumption that is often argued at design time and then treated as permanent: the assurance layers will not fail for the same reasons. CERBERUS proposes treating inter-layer failure-mode independence as a perishable runtime quantity. The architecture combines (i) structural and probabilistic forms of a proposed Failure-Cause Overlap Index (FCOI), (ii) a non-authoritative Vigil whose load-bearing baseline is passive, conditioned, baseline-referenced residual monitoring, (iii) a shadow-mode red-team process whose discoveries may only reduce confidence, and (iv) an authority budget that contracts against pessimistic overlap evidence and restores authority only through fresh evidence, hysteresis, dwell time, and marginal-health checks. A minimal Anchor preserves a survivable authority floor and prevents ground recovery from becoming an override channel. Sentinel injection is retained only as an optional diagnostic extension and receives no safety-case credit without an independent channel-specific safety case. A fixed-seed matched-model experiment verifies that the evidence-to-authority pipeline is correctly wired and monotonic under known ground truth; its perfect separation is explicitly not presented as operational detector validation. The candidate contribution is architectural: to make the independence of the guardians observable, challengeable, budgetable, and unable to flatter itself into authority.
+\end{abstract}
+
+\noindent\textbf{Keywords:} runtime assurance; autonomous systems; common-cause failure; software diversity; spacecraft autonomy; dynamic assurance; FCOI.
+
+\input{sections/01_intro_related.tex}
+\input{sections/02_architecture_fcoi.tex}
+\input{sections/03_vigil_authority_recovery.tex}
+\input{sections/04_experiment.tex}
+\input{sections/05_limits_program_conclusion.tex}
+\section*{Author Responsibility Statement}
+AI-based tools were used for editorial critique, literature organization, and code assistance. The named author is responsible for the manuscript, references, software, claims, and submission.
+
+\small
+\input{references/references.tex}
+\end{document}

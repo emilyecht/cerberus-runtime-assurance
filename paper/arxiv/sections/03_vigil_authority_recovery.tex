@@ -1,0 +1,56 @@
+\section{Vigil Evidence Hierarchy}
+\subsection{Passive conditioned-residual monitoring}
+Shared environmental inputs can create benign correlation. Vigil therefore conditions on measured common stimuli and monitors departures from commissioning baselines rather than raw correlation. The present prototype uses a simple linear conditioning model, rolling residual correlation, a Fisher upper confidence bound, and a persistence rule. Simpler auditable statistics and sequential detectors are intentionally preferred before data-hungry information-theoretic methods \cite{Page1954,BassevilleNikiforov1993,Schreiber2000}.
+
+A passive alarm does not by itself identify a root cause or distinguish harmful coupling from an unmeasured benign stimulus. Its valid action is conservative: reduce the independence budget, preserve the evidence trace, and request diagnosis. Ambiguity cannot create permission.
+
+\subsection{Optional sentinel interrogation}
+Dynamic watermarking motivates bounded active tests of whether a perturbation leaks into a nominally independent channel \cite{MoSinopoli2009,MoWeerakkodySinopoli2015,SatchidanandanKumar2017}. In CERBERUS, however, every channel is passive-only by default. Sentinel interrogation is optional and receives no baseline safety-case credit.
+
+A channel may become injectable only after an independent channel-specific hardware-in-the-loop safety case establishes amplitude and duration caps, maneuver and safing exclusions, automatic removal, state-estimation and actuation-deadband protection, detection-power evidence, and no unacceptable injection-attributable effects. Sentinel evidence cannot increase the budget, cannot promote authority, and is not required for demotion.
+
+\subsection{Pilot red team and graph-external witness}
+During bounded shadow-mode windows, the Pilot may propose missing shared pathways and test them against replay, simulation, or recorded telemetry. A monotonicity ratchet permits discoveries only to reduce confidence, narrow authority, or trigger review. The Pilot can find a hole in the fence; it cannot declare the fence sound.
+
+All graph-based methods share an ontology risk: an omitted mechanism can evade the FCOI graph, the conditioning model, and the red-team search boundary at once. CERBERUS therefore proposes a separately implemented, model-light empirical witness using different representations and assumptions. It may only reduce confidence or declare inconsistency. It cannot certify independence or promote authority. This remains proposed work.
+
+\section{Independence Budget and Authority Law}
+For each failure class $k$, design review establishes a maximum acceptable overlap $\theta_k$ and a certified baseline upper bound $O_{k,0}<\theta_k$. Define
+\begin{align}
+m_k(t) &= \theta_k-O_k(t),\\
+b_k(t) &= \clip\!\left(
+\frac{\theta_k-O_k(t)}{\theta_k-O_{k,0}},0,1\right),\\
+B(t) &= \min_{k\in K} b_k(t).
+\label{eq:budget}
+\end{align}
+If evidence for class $k$ is stale, invalid, or inconsistent, then $b_k(t)=0$ until valid evidence is restored. Catastrophic classes cannot be averaged away by healthier low-consequence classes.
+
+\subsection{Marginal-health promotion guard}
+A ratio can improve because the shared-cause numerator falls or because independent single-layer failure exposure grows. The latter does not justify more authority. Let $H_k(t)$ be true only when the certified upper bounds on the marginal failure probabilities of every relevant layer are below class-specific limits and non-worsening over the promotion evidence window. Promotion requires both adequate $B(t)$ and $H_k(t)=1$ for every promotion-critical class. Demotion may occur from overlap deterioration, marginal-health deterioration, or invalid evidence.
+
+\subsection{Authority states}
+\begin{table}[t]
+\centering
+\caption{Illustrative authority states. Mission-specific thresholds require certification.}
+\label{tab:authority}
+\small
+\begin{tabularx}{\textwidth}{@{}p{0.09\textwidth}p{0.27\textwidth}X@{}}
+\toprule
+State & Pilot role & Permitted system behavior \\
+\midrule
+$\Athree$ & Full proposal envelope & Watchdog accepts only certified-safe proposals; full negotiated mission authority. \\
+$\Atwo$ & Restricted proposals & Reduced magnitudes, narrower plans, stronger cross-channel agreement. \\
+$\Aone$ & Advisory only & Watchdog-directed operation; Pilot may analyze but not control. \\
+$\Azero$ & No mission authority & Anchor maintains the minimum survivable action set and contact posture. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Demotion is immediate and may skip states. Promotion is sequential, one state at a time, and requires a higher threshold than demotion plus continuous valid evidence for a dwell period. Hysteresis and dwell time are established tools for switched-system stability \cite{HespanhaMorse1999,Liberzon2003}; CERBERUS applies them to an asymmetric burden of proof. Unknown evidence cannot produce promotion.
+
+\section{Anchor and Bounded Recovery}
+\subsection{A0 must remain survivable}
+Fail-conservative behavior is not sufficient if it leaves the vehicle silent, tumbling, thermally unstable, or unable to authenticate ground contact. The Anchor therefore preserves power-positive attitude, thermal survival, bounded orientation, authenticated command reception, a diagnostic beacon, bounded isolation, and an expiring diagnostic-recovery window.
+
+\subsection{Ground is a possible failure cause}
+Ground command has historically been capable of mission-ending error, so recovery cannot be modeled as an omniscient override \cite{SagdeevZakharov1989}. Authenticated anti-replay links should align with space data-link security practice \cite{CCSDS355_0_B_2,CCSDS355_1_B_1}. A two-party ground directive may request diagnostics, bounded re-baselining, or re-arming of the promotion law. It cannot write $B(t)$, assign an authority state, waive dwell evidence, or override Anchor invariants. Ground can reopen the evidentiary path; it cannot walk the vehicle up it. This complements dynamic assurance through ground control while keeping restoration dependent on fresh onboard evidence \cite{Sljivo2024}.

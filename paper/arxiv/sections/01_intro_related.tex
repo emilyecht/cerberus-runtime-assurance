@@ -1,0 +1,52 @@
+\section{Introduction}
+Runtime assurance (RTA) permits a high-performance but insufficiently trusted controller to operate while a simpler assurance mechanism filters, replaces, or constrains unsafe actions. The Simplex architecture established this pattern, and subsequent work has extended it to black-box autonomy, robotics, aircraft, spacecraft inspection, collaborative satellites, and mission-level planning \cite{Seto1998,Sha2001,Mehmood2022,HobbsTutorial2021,BratPai2023,Dunlap2023,Hobbs2025,RTAEval2023,MissionLevelRTA2026}. Recent flight testing and cooperative Simplex variants demonstrate that runtime guardrails can preserve formal or experimentally demonstrated safety while allowing richer interaction with high-performance components \cite{Guardrails2026,SynergisticSimplex2026}.
+
+The presence of multiple layers, however, does not establish their failure independence. Multiversion software experiments and probabilistic models show that nominally diverse implementations may still fail on the same difficult inputs, specifications, environmental conditions, or latent assumptions \cite{KnightLeveson1986,EckhardtLee1985,LittlewoodMiller1989,SalakoStrigini2014}. Common-cause failure (CCF) practice reaches the same conclusion from a reliability perspective: redundancy is vulnerable to shared design, environmental, maintenance, power, communication, and modeling causes \cite{Vesely1981,Mosleh1988,Mosleh1998,IEC61508_6_2010,Stott2010,Hark2015,MaKvarfordt2022}.
+
+CERBERUS therefore separates two claims:
+\begin{quote}
+\textbf{Layering is a structural fact. Independence is an evidence claim that can decay.}
+\end{quote}
+The proposed system measures model-relative overlap, monitors evidence of drift, challenges omissions, and binds operational authority to conservative evidence. It does not claim that FCOI directly observes causality, that a causal graph is complete, or that the present prototype is flight-ready.
+
+\subsection{Contributions}
+The manuscript makes five bounded contributions:
+\begin{enumerate}[leftmargin=1.5em]
+  \item a structural and probabilistic formalization of failure-cause overlap, including uncertainty direction and non-estimable cases;
+  \item an evidence hierarchy in which passive conditioned-residual monitoring is baseline and active sentinel interrogation is optional;
+  \item an independence budget and asymmetric authority law with immediate demotion, slow promotion, and a marginal-health promotion guard;
+  \item a survivable Anchor and bounded recovery design that treats ground as a possible failure cause rather than an oracle; and
+  \item a reproducible matched-model experiment that verifies pipeline wiring, fixed-seed reproducibility, and conservative monotonic behavior without claiming realistic detection performance.
+\end{enumerate}
+
+\section{Related Work and Positioning}
+\subsection{Runtime assurance and safe autonomy}
+RTA is usually formulated around an unverified performance controller, a verified backup or safety controller, and a decision or filtering mechanism \cite{Seto1998,Sha2001,HobbsTutorial2021}. Black-Box Simplex, SOTER-like frameworks, evaluation tools, and aerospace guidance expand the implementation and assurance vocabulary \cite{Mehmood2022,RTAEval2023,BratPai2023}. Spacecraft work demonstrates safety constraints for inspection and integrated trusted autonomy test environments \cite{Dunlap2023,Hobbs2025}. Guardrails based on control barrier functions have been flight-tested on the VISTA F-16, while mission-level RTA and Synergistic Simplex broaden the monitored objective or the information exchanged across layers \cite{Guardrails2026,MissionLevelRTA2026,SynergisticSimplex2026}.
+
+CERBERUS does not replace these mechanisms. Its narrower question is whether the assurance architecture itself retains the failure-mode independence on which layered protection relies.
+
+\subsection{Diversity, coincident failure, and common cause}
+Independent development does not imply independent failure \cite{KnightLeveson1986}. Theoretical and conceptual models of multiversion software formalize coincident failure, while later work identifies conditions under which development diversity reduces common failure \cite{EckhardtLee1985,LittlewoodMiller1989,SalakoStrigini2014}. Conservative two-channel reasoning also shows how strong system claims depend on explicit treatment of uncertain channel reliability and dependence \cite{LittlewoodRushby2012,LittlewoodPovyakalo2013}.
+
+Fault-tree and CCF methods provide complementary machinery: minimal cut sets, beta- and alpha-factor models, uncertainty treatment, and operating-experience updates \cite{Vesely1981,Mosleh1988,Mosleh1998,IEC61508_6_2010,MaKvarfordt2022}. Aerospace adaptations show that shared causes are material even when redundancy is physically separated \cite{Stott2010,Hark2015}. CERBERUS borrows this discipline but uses the resulting evidence to constrain autonomy at runtime.
+
+\subsection{Runtime evidence, dynamic assurance, and active interrogation}
+Runtime risk and assurance research updates confidence from system and environmental context or maintains traceable assurance arguments across lifecycle changes \cite{Hartsell2021,Sljivo2024,FeatherPinto2023,ContinuousAssurance2025}. Sequential change detection and conditional dependence provide candidate monitoring tools \cite{Granger1969,Page1954,BassevilleNikiforov1993,Schreiber2000}. Dynamic watermarking demonstrates active interrogation of cyber-physical channels, but also exposes a performance and perturbation cost \cite{MoSinopoli2009,MoWeerakkodySinopoli2015,SatchidanandanKumar2017}. CERBERUS therefore makes passive monitoring load-bearing and treats injection as optional.
+
+\begin{table}[t]
+\centering
+\caption{Position of CERBERUS relative to neighboring research traditions.}
+\label{tab:position}
+\small
+\begin{tabularx}{\textwidth}{@{}p{0.20\textwidth}X X@{}}
+\toprule
+Tradition & Established capability & CERBERUS-specific question \\
+\midrule
+Simplex/RTA & Filters or replaces unsafe actions from a less-trusted controller & Does the trusted layering remain independent over mission life? \\
+Software diversity/CCF & Models coincident and shared-cause failures & Can overlap evidence become a runtime authority constraint? \\
+Runtime risk/dynamic assurance & Updates risk or assurance evidence as context changes & Can pessimistic independence evidence directly contract autonomy? \\
+Dynamic watermarking & Actively probes channels for hidden coupling or attack & Can probing be optional, bounded, and unable to create authority? \\
+Switched systems & Uses hysteresis and dwell time to stabilize switching & Can restoration carry a higher burden of proof than demotion? \\
+\bottomrule
+\end{tabularx}
+\end{table}

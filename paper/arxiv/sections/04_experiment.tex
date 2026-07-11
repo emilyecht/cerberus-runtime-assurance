@@ -1,0 +1,62 @@
+\section{Matched-Model Pipeline Verification}
+\subsection{Purpose and tautology risk}
+The experiment asks whether the implemented evidence-to-authority pipeline behaves correctly under known ground truth. Two synthetic channels share a measured environment; a latent process is deliberately coupled into both channels after a known onset. Vigil estimates environmental response during commissioning, monitors residual correlation, converts it to a one-sided upper confidence bound, requires persistence, and maps adverse evidence to illustrative authority contraction.
+
+\begin{quote}
+\textbf{Perfect separation is expected when the detector's model matches the data generator. The experiment tests pipeline correctness, reproducibility, and conservative-bound behavior - not detection difficulty.}
+\end{quote}
+
+\subsection{Protocol}
+The fixed protocol uses 1,800 samples, a commissioning interval ending at sample 500, coupling onset at sample 700, a predefined behavioral symptom at sample 1,300, a 120-sample rolling window, 100 independent nominal calibration runs, and separate ensembles of 200 nominal and 200 coupling evaluation runs. The alarm threshold is the 95th percentile of the post-commissioning maximum upper-bound statistic across calibration runs, followed by a requirement for ten consecutive exceedances. The calibrated threshold is 0.458326.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.96\textwidth,
+  height=0.34\textwidth,
+  xlabel={Sample},
+  ylabel={Upper bound on $|r_{\mathrm{res}}|$},
+  xmin=100,xmax=1800,
+  ymin=0,ymax=1.02,
+  grid=major,
+  legend style={at={(0.02,0.98)},anchor=north west,font=\small,draw=none,fill=white},
+  tick label style={font=\small},
+  label style={font=\small}
+]
+\addplot[cerbnavy,thick] table[x=sample,y=upper_bound,col sep=comma] {figures/representative_trace_downsampled.csv};
+\addlegendentry{Fisher upper bound}
+\addplot[cerbred,dashed,thick] table[x=sample,y=threshold,col sep=comma] {figures/representative_trace_downsampled.csv};
+\addlegendentry{Calibrated alarm threshold}
+\draw[cerbteal,densely dashed] (axis cs:700,0) -- (axis cs:700,1.02) node[pos=0.96,anchor=east,rotate=90,font=\scriptsize]{coupling onset};
+\draw[cerbgold,densely dashed] (axis cs:984,0) -- (axis cs:984,1.02) node[pos=0.96,anchor=east,rotate=90,font=\scriptsize]{representative detection};
+\draw[black,densely dotted] (axis cs:1300,0) -- (axis cs:1300,1.02) node[pos=0.96,anchor=east,rotate=90,font=\scriptsize]{defined symptom};
+\end{axis}
+\end{tikzpicture}
+\caption{Representative fixed-seed matched-model trace. The plot verifies expected statistic and threshold behavior for the supplied generator; it is not a flight-performance estimate.}
+\label{fig:experiment}
+\end{figure}
+
+\subsection{Results and interpretation}
+\begin{table}[t]
+\centering
+\caption{Fixed-seed matched-model results. Exact binomial intervals describe only the synthetic run ensembles.}
+\label{tab:results}
+\small
+\begin{tabular}{@{}lr@{}}
+\toprule
+Metric & Result \\
+\midrule
+Nominal sustained-alarm runs & $0/200$ \\
+Two-sided 95\% exact upper bound on nominal run-alarm rate & 1.83\% \\
+Coupling detections & $200/200$ \\
+Two-sided 95\% exact lower bound on coupling detection rate & 98.17\% \\
+Median detection sample & 1061.5 \\
+Median lead before defined symptom & 238.5 samples \\
+10th--90th percentile lead & 160.9--319.6 samples \\
+Representative detection sample & 984 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The perfect observed separation verifies that the matched conditioning, calibration split, persistence rule, upper-bound computation, fixed-seed output generation, and illustrative authority transitions are wired consistently. It does not establish zero false alarms, perfect detection, causal discovery, model-mismatch robustness, realistic telemetry performance, full probabilistic FCOI, sentinel safety, or flight authority validity. The next experiments must intentionally break the match between detector and generator.

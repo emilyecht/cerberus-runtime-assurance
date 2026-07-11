@@ -1,0 +1,65 @@
+\section{Threats to Validity and Open Problems}
+\paragraph{Model-relative causality.} FCOI is only as complete as the causal ontology and evidence model. The graph-external witness reduces self-reference but does not solve ontology incompleteness.
+
+\paragraph{Denominator sensitivity.} Probabilistic FCOI is a failure-exposure composition ratio, not a pure dependence coefficient. Marginal probabilities and the shared-root numerator must be reported separately, and promotion must pass the marginal-health guard.
+
+\paragraph{Measurement confounding.} Environmental conditioning can be wrong, stale, or itself degraded. Missing variables may create false coupling, while degrading sensors may hide real coupling.
+
+\paragraph{Availability attack surface.} Conservative unknown handling can be exploited to force prolonged A0 operation. Availability metrics, bounded diagnostics, and recovery performance must therefore be evaluated beside safety.
+
+\paragraph{Sentinel consequence.} Active interrogation perturbs a live system and is the highest-consequence, least-evidenced mechanism. It is optional until independently validated.
+
+\paragraph{Three-layer reliability theory.} Much conservative diverse-system theory is formulated for two channels \cite{LittlewoodRushby2012,LittlewoodPovyakalo2013}. A defensible three-layer aggregation and reliability claim remains open.
+
+\paragraph{Novelty boundary.} A targeted primary-source review through July 2026 did not identify an exact prior composition that turns pessimistic runtime independence evidence into the controlled resource linking CCF analysis, passive monitoring, adversarial discovery, authority allocation, and evidence-gated restoration. This is a research-positioning statement, not an exhaustive search or patentability opinion.
+
+\section{Implementation Boundary and Research Program}
+\begin{table}[t]
+\centering
+\caption{Current implementation boundary.}
+\label{tab:status}
+\small
+\begin{tabularx}{\textwidth}{@{}p{0.22\textwidth}p{0.21\textwidth}X@{}}
+\toprule
+Artifact or mechanism & Status & Evidence boundary \\
+\midrule
+Vigil browser lab & Implemented explanatory prototype & Simplified proxy dynamics; not flight software. \\
+Matched-model experiment & Implemented and reproducible & Pipeline verification only; no realistic difficulty claim. \\
+Adversarial Casebook & Implemented research artifact & Scenario library is not exhaustive or a certified FMEA/PRA. \\
+Anchor specification & Implemented specification artifact & No flight hardware or formally verified implementation. \\
+Structural FCOI engine & Specified, not implemented & Requires reviewed causal graphs and cut-set tooling. \\
+Probabilistic FCOI estimator & Specified, not implemented & Requires calibrated root-cause, propagation, and marginal-failure models. \\
+Sentinel interrogation & Optional, proposed & No safety-case credit without channel-specific HIL validation. \\
+Graph-external witness & Proposed & Algorithm and independence argument remain open. \\
+Flight/HIL validation & Future work & No certification, TRL, or operational-readiness claim. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The next verification sequence is:
+\begin{enumerate}[leftmargin=1.5em]
+  \item compare residual correlation against raw correlation, partial/rank correlation, CUSUM, Page--Hinkley, and simple ensembles using identical seed partitions;
+  \item introduce nonstationarity, missing and bursty telemetry, timestamp drift, maneuver transients, degrading environment sensors, and benign unmodeled stimuli;
+  \item pre-register thresholds and acceptance criteria before held-out evaluation;
+  \item implement a structural cut-set engine and test near-match weighting against reviewed examples;
+  \item build a graph-external witness with a separate representation and one-way authority effect;
+  \item evaluate authority chattering, time at level, recovery latency, and denial-of-availability behavior;
+  \item conduct channel-specific HIL testing before any active sentinel receives safety-case credit.
+\end{enumerate}
+
+\section{Code and Data Availability}
+The architecture paper, specifications, implementation-status records, and supporting evidence are maintained at
+\begin{center}
+\url{https://github.com/k766807/cerberus-runtime-assurance}.
+\end{center}
+The reproducible experiment, tests, fixed-seed outputs, and continuous-integration workflow are maintained separately at
+\begin{center}
+\url{https://github.com/k766807/cerberus-vigil-experiment}.
+\end{center}
+
+\section{Conclusion}
+CERBERUS begins from a simple constraint: intelligence is not safety. It then separates layering from independence and treats independence as perishable. FCOI is explicitly model-relative; operational authority burns against a pessimistic upper bound; invalid evidence cannot create permission; worsening marginal layer health cannot manufacture promotion through a favorable ratio; demotion is immediate; restoration is sequential and earned; ground cannot bypass the mechanism; and passive evidence remains load-bearing while active interrogation is optional.
+
+The present experiment proves one narrow but useful fact: under an explicit generator aligned with the detector, the evidence-to-authority pipeline executes reproducibly and moves conservatively in the intended direction. The next scientific burden is not to repeat perfect separation, but to attack the pipeline with mismatch, degraded telemetry, alternative detectors, and realistic common-cause mechanisms.
+
+The proposed architectural contribution is to make the independence of the guardians observable, challengeable, budgetable, and unable to flatter itself into authority.

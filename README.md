@@ -10,7 +10,7 @@ CERBERUS is a research architecture for autonomous-system runtime assurance. It 
 
 ## Release status
 
-This repository is a **v3.4 release candidate and research prototype**. It is not flight-certified software, not a completed safety case, and not a claim of operational readiness.
+This repository contains the **v3.5 arXiv submission manuscript and research prototype**. It is not flight-certified software, not a completed safety case, and not a claim of operational readiness.
 
 The strongest reviewer-safe novelty hypothesis is architectural: a targeted primary-source review located no exact match for the complete loop in which the pessimistic upper bound of measured inter-layer failure-mode overlap becomes a controlled runtime resource - define it, monitor its drift, adversarially challenge omissions, budget authority against it, demote immediately, and restore only through fresh evidence.
 
@@ -39,9 +39,9 @@ Shared information is allowed. Shared cognition and shared authority failure mod
 
 ## Start here
 
+- [CERBERUS v3.5 arXiv manuscript source](paper/arxiv/CERBERUS_v3.5_arXiv.tex)
+- [arXiv source build notes](paper/arxiv/README.md)
 - [CERBERUS v3.4 reviewer-hardened paper](docs/CERBERUS_v3.4_Release_Candidate.md)
-- [CERBERUS v3.3 formatted paper - PDF](docs/CERBERUS_v3.3_Release_Candidate.pdf)
-- [CERBERUS v3.3 editable paper - DOCX](docs/CERBERUS_v3.3_Release_Candidate.docx)
 - [Anchor Reference Specification](docs/CERBERUS_Anchor_Reference_Specification_v1.docx)
 - [Adversarial Casebook](docs/CERBERUS_Adversarial_Casebook_v1.docx)
 - [Interactive Vigil Lab](vigil-lab/index.html)
@@ -49,15 +49,15 @@ Shared information is allowed. Shared cognition and shared authority failure mod
 - [Dedicated Vigil pipeline-verification experiment](https://github.com/k766807/cerberus-vigil-experiment)
 - [Implementation-status boundary](evidence/implementation_status.json)
 
-## What changed in v3.4
+## What changed in v3.5
 
-- Reframed the synthetic result as a **matched-model pipeline-verification test**, not operational detector validation.
-- Named the tautology risk explicitly: perfect separation is expected when the detector matches the generator.
-- Clarified probabilistic FCOI as the share of total pair failure exposure attributable to shared-root joint failure.
-- Required reporting of both marginal failure probabilities, the shared-root numerator, the union denominator, and the final ratio.
-- Added a marginal-health promotion guard so worsening single-layer reliability cannot manufacture authority by lowering the ratio.
-- Made passive conditioned-residual monitoring the load-bearing Vigil baseline.
-- Reclassified sentinel injection as an optional, disabled-by-default diagnostic extension with no safety-case credit until independently validated.
+- Rebuilt the paper as a submission-ready, self-contained LaTeX manuscript.
+- Added a verified primary-source bibliography spanning Simplex/RTA, software diversity, common-cause failure, runtime evidence, dynamic watermarking, switching, ground recovery, and current 2025-2026 work.
+- Added exact binomial confidence bounds to the matched-model experiment results.
+- Preserved the explicit tautology warning: perfect matched-model separation verifies pipeline wiring, not realistic detection difficulty.
+- Preserved the probabilistic-FCOI denominator interpretation and marginal-health promotion guard.
+- Preserved passive Vigil monitoring as baseline and sentinel interrogation as optional.
+- Added an author-responsibility statement covering AI-assisted editorial and coding support.
 
 ## Matched-model pipeline verification
 
@@ -66,7 +66,9 @@ The maintained implementation, tests, committed reference outputs, and CI reprod
 Fixed results from the supplied matched synthetic model:
 
 - Nominal sustained-alarm runs: **0 / 200**
+- Two-sided 95% exact upper bound on the nominal run-alarm rate: **1.83%**
 - Coupling detections: **200 / 200**
+- Two-sided 95% exact lower bound on the coupling detection rate: **98.17%**
 - Median detection sample: **1061.5**
 - Median lead before symptom: **238.5 samples**
 - 10th-90th percentile lead: **160.9-319.6 samples**
@@ -109,7 +111,8 @@ python run_experiment.py
 ## Repository layout
 
 ```text
-├── docs/              paper, specifications, casebook, diagrams
+├── paper/arxiv/       submission-ready LaTeX source, references, and figure data
+├── docs/              prior papers, specifications, casebook, diagrams
 ├── evidence/          novelty matrix, reference records, status boundary
 ├── experiment/        archived v3.3 experiment snapshot
 ├── vigil-lab/         interactive browser demonstrator
