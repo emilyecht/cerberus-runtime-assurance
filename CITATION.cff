@@ -1,8 +1,8 @@
 cff-version: 1.2.0
-message: "If you use or discuss CERBERUS, please cite the v3.3 release candidate."
-title: "CERBERUS v3.3: The Fourth Guarantee — Independence as a Runtime Quantity"
+message: "If you use or discuss CERBERUS, please cite the v3.4 release candidate."
+title: "CERBERUS v3.4: The Fourth Guarantee - Independence as a Runtime Quantity"
 type: software
-version: "3.3"
+version: "3.4"
 date-released: "2026-07-11"
 authors:
   - family-names: "Echterhoff"
@@ -11,11 +11,14 @@ url: "https://cerberus-jq99.onrender.com"
 abstract: >-
   A research architecture that treats inter-layer failure-mode independence as a
   measurable, perishable runtime quantity and budgets autonomous authority against
-  its pessimistic upper bound.
+  its pessimistic upper bound. Version 3.4 clarifies the probabilistic FCOI
+  normalization, adds a marginal-health promotion guard, makes passive Vigil
+  monitoring baseline, and frames the synthetic experiment as matched-model
+  pipeline verification rather than operational validation.
 keywords:
   - runtime assurance
   - autonomous systems
   - common-cause failure
   - spacecraft safety
   - FCOI
-license: "NOASSERTION"
+license: "MIT"
