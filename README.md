@@ -123,5 +123,4 @@ This repository currently carries an [MIT License](LICENSE). Review that license
 
 ## Author
 
-**Emily Echterhoff**  
-Project site: `cerberus-jq99.onrender.com`
+**Emily Echterhoff**
