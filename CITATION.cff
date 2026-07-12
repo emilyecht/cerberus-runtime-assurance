@@ -7,7 +7,7 @@ date-released: "2026-07-11"
 authors:
   - family-names: "Echterhoff"
     given-names: "Emily"
-repository-code: "https://github.com/k766807/cerberus-runtime-assurance"
+repository-code: "https://github.com/emilyecht/cerberus-runtime-assurance"
 abstract: >-
   A research architecture that treats inter-layer failure-mode independence as a
   measurable, perishable runtime quantity and budgets autonomous authority against
@@ -30,4 +30,4 @@ preferred-citation:
       given-names: "Emily"
   year: 2026
   version: "3.5"
-  repository-code: "https://github.com/k766807/cerberus-runtime-assurance"
+  repository-code: "https://github.com/emilyecht/cerberus-runtime-assurance"
