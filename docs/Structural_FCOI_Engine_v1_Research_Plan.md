@@ -1,6 +1,6 @@
 # Structural FCOI Engine v1 Research Plan
 
-**Status:** Planning only; no implementation is claimed.  
+**Status:** Full v1 remains a research plan. A bounded [Boolean reference vertical slice](fcoi-engine-v1/boolean-vertical-slice.md) is implemented; causal-model review, near-match census, trace and scale work remain incomplete.
 **Parent architecture:** CERBERUS v3.5  
 **Primary tracking issue:** [#1 — Implement the structural FCOI minimal-cut-set engine](https://github.com/emilyecht/cerberus-runtime-assurance/issues/1)
 

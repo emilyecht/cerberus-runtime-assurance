@@ -1,0 +1,7 @@
+include README.md LICENSE
+recursive-include src/cerberus_fcoi *.py *.json
+recursive-include examples/fcoi *.json
+recursive-include tests/fcoi *.py
+recursive-include docs/fcoi-engine-v1 *.md
+recursive-include schemas *.sha256
+global-exclude __pycache__ *.py[cod]

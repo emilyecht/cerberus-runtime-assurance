@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "model_id": "hand-example",
+  "model_version": "1.0.0",
+  "failure_class": "loss-of-guarding",
+  "evidence_status": "unreviewed",
+  "assumptions": [
+    "Synthetic Boolean sufficiency only; not observed causal independence."
+  ],
+  "undeveloped_events": [],
+  "root_causes": [
+    {
+      "id": "A",
+      "description": "Synthetic modeled cause A",
+      "evidence_refs": []
+    },
+    {
+      "id": "B",
+      "description": "Synthetic modeled cause B",
+      "evidence_refs": []
+    },
+    {
+      "id": "C",
+      "description": "Synthetic modeled cause C",
+      "evidence_refs": []
+    }
+  ],
+  "nodes": [
+    {
+      "id": "A",
+      "type": "basic_event",
+      "root_cause": "A",
+      "mechanism_refs": []
+    },
+    {
+      "id": "B",
+      "type": "basic_event",
+      "root_cause": "B",
+      "mechanism_refs": []
+    },
+    {
+      "id": "C",
+      "type": "basic_event",
+      "root_cause": "C",
+      "mechanism_refs": []
+    },
+    {
+      "id": "ab",
+      "type": "or_gate",
+      "inputs": [
+        "A",
+        "B"
+      ],
+      "mechanism_refs": []
+    },
+    {
+      "id": "bc",
+      "type": "or_gate",
+      "inputs": [
+        "B",
+        "C"
+      ],
+      "mechanism_refs": []
+    }
+  ],
+  "top_events": {
+    "Pilot": "ab",
+    "Watchdog": "bc"
+  }
+}
