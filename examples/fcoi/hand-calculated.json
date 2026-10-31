@@ -1,0 +1,788 @@
+{
+  "fixture_version": "1.0.0",
+  "cases": [
+    {
+      "name": "identical",
+      "explanation": "Both families are {{A},{B}}; intersection 2 / union 2.",
+      "model": {
+        "schema_version": "1.0.0",
+        "model_id": "hand-example",
+        "model_version": "1.0.0",
+        "failure_class": "loss-of-guarding",
+        "evidence_status": "unreviewed",
+        "assumptions": [
+          "Synthetic Boolean sufficiency only; not observed causal independence."
+        ],
+        "undeveloped_events": [],
+        "root_causes": [
+          {
+            "id": "A",
+            "description": "Synthetic modeled cause A",
+            "evidence_refs": []
+          },
+          {
+            "id": "B",
+            "description": "Synthetic modeled cause B",
+            "evidence_refs": []
+          },
+          {
+            "id": "C",
+            "description": "Synthetic modeled cause C",
+            "evidence_refs": []
+          }
+        ],
+        "nodes": [
+          {
+            "id": "A",
+            "type": "basic_event",
+            "root_cause": "A",
+            "mechanism_refs": []
+          },
+          {
+            "id": "B",
+            "type": "basic_event",
+            "root_cause": "B",
+            "mechanism_refs": []
+          },
+          {
+            "id": "C",
+            "type": "basic_event",
+            "root_cause": "C",
+            "mechanism_refs": []
+          },
+          {
+            "id": "ab",
+            "type": "or_gate",
+            "inputs": [
+              "A",
+              "B"
+            ],
+            "mechanism_refs": []
+          }
+        ],
+        "top_events": {
+          "Pilot": "ab",
+          "Watchdog": "ab"
+        }
+      },
+      "expected": {
+        "Pilot": [
+          [
+            "A"
+          ],
+          [
+            "B"
+          ]
+        ],
+        "Watchdog": [
+          [
+            "A"
+          ],
+          [
+            "B"
+          ]
+        ]
+      },
+      "ratio": 1
+    },
+    {
+      "name": "disjoint",
+      "explanation": "{{A}} versus {{B}}; intersection 0 / union 2.",
+      "model": {
+        "schema_version": "1.0.0",
+        "model_id": "hand-example",
+        "model_version": "1.0.0",
+        "failure_class": "loss-of-guarding",
+        "evidence_status": "unreviewed",
+        "assumptions": [
+          "Synthetic Boolean sufficiency only; not observed causal independence."
+        ],
+        "undeveloped_events": [],
+        "root_causes": [
+          {
+            "id": "A",
+            "description": "Synthetic modeled cause A",
+            "evidence_refs": []
+          },
+          {
+            "id": "B",
+            "description": "Synthetic modeled cause B",
+            "evidence_refs": []
+          },
+          {
+            "id": "C",
+            "description": "Synthetic modeled cause C",
+            "evidence_refs": []
+          }
+        ],
+        "nodes": [
+          {
+            "id": "A",
+            "type": "basic_event",
+            "root_cause": "A",
+            "mechanism_refs": []
+          },
+          {
+            "id": "B",
+            "type": "basic_event",
+            "root_cause": "B",
+            "mechanism_refs": []
+          },
+          {
+            "id": "C",
+            "type": "basic_event",
+            "root_cause": "C",
+            "mechanism_refs": []
+          }
+        ],
+        "top_events": {
+          "Pilot": "A",
+          "Watchdog": "B"
+        }
+      },
+      "expected": {
+        "Pilot": [
+          [
+            "A"
+          ]
+        ],
+        "Watchdog": [
+          [
+            "B"
+          ]
+        ]
+      },
+      "ratio": 0
+    },
+    {
+      "name": "partial",
+      "explanation": "{{A},{B}} versus {{B},{C}}; intersection 1 / union 3.",
+      "model": {
+        "schema_version": "1.0.0",
+        "model_id": "hand-example",
+        "model_version": "1.0.0",
+        "failure_class": "loss-of-guarding",
+        "evidence_status": "unreviewed",
+        "assumptions": [
+          "Synthetic Boolean sufficiency only; not observed causal independence."
+        ],
+        "undeveloped_events": [],
+        "root_causes": [
+          {
+            "id": "A",
+            "description": "Synthetic modeled cause A",
+            "evidence_refs": []
+          },
+          {
+            "id": "B",
+            "description": "Synthetic modeled cause B",
+            "evidence_refs": []
+          },
+          {
+            "id": "C",
+            "description": "Synthetic modeled cause C",
+            "evidence_refs": []
+          }
+        ],
+        "nodes": [
+          {
+            "id": "A",
+            "type": "basic_event",
+            "root_cause": "A",
+            "mechanism_refs": []
+          },
+          {
+            "id": "B",
+            "type": "basic_event",
+            "root_cause": "B",
+            "mechanism_refs": []
+          },
+          {
+            "id": "C",
+            "type": "basic_event",
+            "root_cause": "C",
+            "mechanism_refs": []
+          },
+          {
+            "id": "ab",
+            "type": "or_gate",
+            "inputs": [
+              "A",
+              "B"
+            ],
+            "mechanism_refs": []
+          },
+          {
+            "id": "bc",
+            "type": "or_gate",
+            "inputs": [
+              "B",
+              "C"
+            ],
+            "mechanism_refs": []
+          }
+        ],
+        "top_events": {
+          "Pilot": "ab",
+          "Watchdog": "bc"
+        }
+      },
+      "expected": {
+        "Pilot": [
+          [
+            "A"
+          ],
+          [
+            "B"
+          ]
+        ],
+        "Watchdog": [
+          [
+            "B"
+          ],
+          [
+            "C"
+          ]
+        ]
+      },
+      "ratio": 0.3333333333333333
+    },
+    {
+      "name": "nested",
+      "explanation": "(A OR B) AND (A OR C) absorbs to A OR (B AND C); versus A gives 1/2.",
+      "model": {
+        "schema_version": "1.0.0",
+        "model_id": "hand-example",
+        "model_version": "1.0.0",
+        "failure_class": "loss-of-guarding",
+        "evidence_status": "unreviewed",
+        "assumptions": [
+          "Synthetic Boolean sufficiency only; not observed causal independence."
+        ],
+        "undeveloped_events": [],
+        "root_causes": [
+          {
+            "id": "A",
+            "description": "Synthetic modeled cause A",
+            "evidence_refs": []
+          },
+          {
+            "id": "B",
+            "description": "Synthetic modeled cause B",
+            "evidence_refs": []
+          },
+          {
+            "id": "C",
+            "description": "Synthetic modeled cause C",
+            "evidence_refs": []
+          }
+        ],
+        "nodes": [
+          {
+            "id": "A",
+            "type": "basic_event",
+            "root_cause": "A",
+            "mechanism_refs": []
+          },
+          {
+            "id": "B",
+            "type": "basic_event",
+            "root_cause": "B",
+            "mechanism_refs": []
+          },
+          {
+            "id": "C",
+            "type": "basic_event",
+            "root_cause": "C",
+            "mechanism_refs": []
+          },
+          {
+            "id": "ab",
+            "type": "or_gate",
+            "inputs": [
+              "A",
+              "B"
+            ],
+            "mechanism_refs": []
+          },
+          {
+            "id": "ac",
+            "type": "or_gate",
+            "inputs": [
+              "A",
+              "C"
+            ],
+            "mechanism_refs": []
+          },
+          {
+            "id": "nested",
+            "type": "and_gate",
+            "inputs": [
+              "ab",
+              "ac"
+            ],
+            "mechanism_refs": []
+          }
+        ],
+        "top_events": {
+          "Pilot": "nested",
+          "Watchdog": "A"
+        }
+      },
+      "expected": {
+        "Pilot": [
+          [
+            "A"
+          ],
+          [
+            "B",
+            "C"
+          ]
+        ],
+        "Watchdog": [
+          [
+            "A"
+          ]
+        ]
+      },
+      "ratio": 0.5
+    },
+    {
+      "name": "dominated-superset",
+      "explanation": "A OR (A AND B) absorbs to A, not two cut sets.",
+      "model": {
+        "schema_version": "1.0.0",
+        "model_id": "hand-example",
+        "model_version": "1.0.0",
+        "failure_class": "loss-of-guarding",
+        "evidence_status": "unreviewed",
+        "assumptions": [
+          "Synthetic Boolean sufficiency only; not observed causal independence."
+        ],
+        "undeveloped_events": [],
+        "root_causes": [
+          {
+            "id": "A",
+            "description": "Synthetic modeled cause A",
+            "evidence_refs": []
+          },
+          {
+            "id": "B",
+            "description": "Synthetic modeled cause B",
+            "evidence_refs": []
+          },
+          {
+            "id": "C",
+            "description": "Synthetic modeled cause C",
+            "evidence_refs": []
+          }
+        ],
+        "nodes": [
+          {
+            "id": "A",
+            "type": "basic_event",
+            "root_cause": "A",
+            "mechanism_refs": []
+          },
+          {
+            "id": "B",
+            "type": "basic_event",
+            "root_cause": "B",
+            "mechanism_refs": []
+          },
+          {
+            "id": "C",
+            "type": "basic_event",
+            "root_cause": "C",
+            "mechanism_refs": []
+          },
+          {
+            "id": "both",
+            "type": "and_gate",
+            "inputs": [
+              "A",
+              "B"
+            ],
+            "mechanism_refs": []
+          },
+          {
+            "id": "absorbed",
+            "type": "or_gate",
+            "inputs": [
+              "A",
+              "both"
+            ],
+            "mechanism_refs": []
+          }
+        ],
+        "top_events": {
+          "Pilot": "absorbed",
+          "Watchdog": "A"
+        }
+      },
+      "expected": {
+        "Pilot": [
+          [
+            "A"
+          ]
+        ],
+        "Watchdog": [
+          [
+            "A"
+          ]
+        ]
+      },
+      "ratio": 1
+    },
+    {
+      "name": "repeated-root-paths",
+      "explanation": "Different basic-event node IDs explicitly reference the same cause A.",
+      "model": {
+        "schema_version": "1.0.0",
+        "model_id": "hand-example",
+        "model_version": "1.0.0",
+        "failure_class": "loss-of-guarding",
+        "evidence_status": "unreviewed",
+        "assumptions": [
+          "Synthetic Boolean sufficiency only; not observed causal independence."
+        ],
+        "undeveloped_events": [],
+        "root_causes": [
+          {
+            "id": "A",
+            "description": "Synthetic modeled cause A",
+            "evidence_refs": []
+          },
+          {
+            "id": "B",
+            "description": "Synthetic modeled cause B",
+            "evidence_refs": []
+          },
+          {
+            "id": "C",
+            "description": "Synthetic modeled cause C",
+            "evidence_refs": []
+          }
+        ],
+        "nodes": [
+          {
+            "id": "A",
+            "type": "basic_event",
+            "root_cause": "A",
+            "mechanism_refs": []
+          },
+          {
+            "id": "B",
+            "type": "basic_event",
+            "root_cause": "B",
+            "mechanism_refs": []
+          },
+          {
+            "id": "C",
+            "type": "basic_event",
+            "root_cause": "C",
+            "mechanism_refs": []
+          },
+          {
+            "id": "alias",
+            "type": "basic_event",
+            "root_cause": "A",
+            "mechanism_refs": []
+          },
+          {
+            "id": "same",
+            "type": "and_gate",
+            "inputs": [
+              "A",
+              "alias",
+              "A"
+            ],
+            "mechanism_refs": []
+          }
+        ],
+        "top_events": {
+          "Pilot": "same",
+          "Watchdog": "alias"
+        }
+      },
+      "expected": {
+        "Pilot": [
+          [
+            "A"
+          ]
+        ],
+        "Watchdog": [
+          [
+            "A"
+          ]
+        ]
+      },
+      "ratio": 1
+    },
+    {
+      "name": "near-match-not-independence",
+      "explanation": "{{A,B}} and {{A,C}} have zero exact family overlap but share cause A.",
+      "model": {
+        "schema_version": "1.0.0",
+        "model_id": "hand-example",
+        "model_version": "1.0.0",
+        "failure_class": "loss-of-guarding",
+        "evidence_status": "unreviewed",
+        "assumptions": [
+          "Synthetic Boolean sufficiency only; not observed causal independence."
+        ],
+        "undeveloped_events": [],
+        "root_causes": [
+          {
+            "id": "A",
+            "description": "Synthetic modeled cause A",
+            "evidence_refs": []
+          },
+          {
+            "id": "B",
+            "description": "Synthetic modeled cause B",
+            "evidence_refs": []
+          },
+          {
+            "id": "C",
+            "description": "Synthetic modeled cause C",
+            "evidence_refs": []
+          }
+        ],
+        "nodes": [
+          {
+            "id": "A",
+            "type": "basic_event",
+            "root_cause": "A",
+            "mechanism_refs": []
+          },
+          {
+            "id": "B",
+            "type": "basic_event",
+            "root_cause": "B",
+            "mechanism_refs": []
+          },
+          {
+            "id": "C",
+            "type": "basic_event",
+            "root_cause": "C",
+            "mechanism_refs": []
+          },
+          {
+            "id": "ab",
+            "type": "and_gate",
+            "inputs": [
+              "A",
+              "B"
+            ],
+            "mechanism_refs": []
+          },
+          {
+            "id": "ac",
+            "type": "and_gate",
+            "inputs": [
+              "A",
+              "C"
+            ],
+            "mechanism_refs": []
+          }
+        ],
+        "top_events": {
+          "Pilot": "ab",
+          "Watchdog": "ac"
+        }
+      },
+      "expected": {
+        "Pilot": [
+          [
+            "A",
+            "B"
+          ]
+        ],
+        "Watchdog": [
+          [
+            "A",
+            "C"
+          ]
+        ]
+      },
+      "ratio": 0,
+      "shared": [
+        "A"
+      ]
+    },
+    {
+      "name": "one-empty-family",
+      "explanation": "Explicit false has no sufficient assignments; union with {{A}} has size 1.",
+      "model": {
+        "schema_version": "1.0.0",
+        "model_id": "hand-example",
+        "model_version": "1.0.0",
+        "failure_class": "loss-of-guarding",
+        "evidence_status": "unreviewed",
+        "assumptions": [
+          "Synthetic Boolean sufficiency only; not observed causal independence."
+        ],
+        "undeveloped_events": [],
+        "root_causes": [
+          {
+            "id": "A",
+            "description": "Synthetic modeled cause A",
+            "evidence_refs": []
+          },
+          {
+            "id": "B",
+            "description": "Synthetic modeled cause B",
+            "evidence_refs": []
+          },
+          {
+            "id": "C",
+            "description": "Synthetic modeled cause C",
+            "evidence_refs": []
+          }
+        ],
+        "nodes": [
+          {
+            "id": "A",
+            "type": "basic_event",
+            "root_cause": "A",
+            "mechanism_refs": []
+          },
+          {
+            "id": "B",
+            "type": "basic_event",
+            "root_cause": "B",
+            "mechanism_refs": []
+          },
+          {
+            "id": "C",
+            "type": "basic_event",
+            "root_cause": "C",
+            "mechanism_refs": []
+          },
+          {
+            "id": "never",
+            "type": "constant",
+            "value": false,
+            "mechanism_refs": []
+          }
+        ],
+        "top_events": {
+          "Pilot": "never",
+          "Watchdog": "A"
+        }
+      },
+      "expected": {
+        "Pilot": [],
+        "Watchdog": [
+          [
+            "A"
+          ]
+        ]
+      },
+      "ratio": 0
+    },
+    {
+      "name": "both-empty-families",
+      "explanation": "Explicit false for both layers: union empty; not estimable, never numeric zero.",
+      "model": {
+        "schema_version": "1.0.0",
+        "model_id": "hand-example",
+        "model_version": "1.0.0",
+        "failure_class": "loss-of-guarding",
+        "evidence_status": "unreviewed",
+        "assumptions": [
+          "Synthetic Boolean sufficiency only; not observed causal independence."
+        ],
+        "undeveloped_events": [],
+        "root_causes": [
+          {
+            "id": "A",
+            "description": "Synthetic modeled cause A",
+            "evidence_refs": []
+          },
+          {
+            "id": "B",
+            "description": "Synthetic modeled cause B",
+            "evidence_refs": []
+          },
+          {
+            "id": "C",
+            "description": "Synthetic modeled cause C",
+            "evidence_refs": []
+          }
+        ],
+        "nodes": [
+          {
+            "id": "never",
+            "type": "constant",
+            "value": false,
+            "mechanism_refs": []
+          }
+        ],
+        "top_events": {
+          "Pilot": "never",
+          "Watchdog": "never"
+        }
+      },
+      "expected": {
+        "Pilot": [],
+        "Watchdog": []
+      },
+      "ratio": null
+    },
+    {
+      "name": "empty-cut-set-is-unconditional",
+      "explanation": "True has the family containing the empty cut set; this is unconditional failure, not an empty family.",
+      "model": {
+        "schema_version": "1.0.0",
+        "model_id": "hand-example",
+        "model_version": "1.0.0",
+        "failure_class": "loss-of-guarding",
+        "evidence_status": "unreviewed",
+        "assumptions": [
+          "Synthetic Boolean sufficiency only; not observed causal independence."
+        ],
+        "undeveloped_events": [],
+        "root_causes": [
+          {
+            "id": "A",
+            "description": "Synthetic modeled cause A",
+            "evidence_refs": []
+          },
+          {
+            "id": "B",
+            "description": "Synthetic modeled cause B",
+            "evidence_refs": []
+          },
+          {
+            "id": "C",
+            "description": "Synthetic modeled cause C",
+            "evidence_refs": []
+          }
+        ],
+        "nodes": [
+          {
+            "id": "always",
+            "type": "constant",
+            "value": true,
+            "mechanism_refs": []
+          }
+        ],
+        "top_events": {
+          "Pilot": "always",
+          "Watchdog": "always"
+        }
+      },
+      "expected": {
+        "Pilot": [
+          []
+        ],
+        "Watchdog": [
+          []
+        ]
+      },
+      "ratio": 1
+    }
+  ]
+}

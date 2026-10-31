@@ -3,7 +3,7 @@
 ## Near term
 
 - Reproduce the synthetic Vigil experiment in a clean environment and add automated checks.
-- Implement an exact minimal-cut-set engine for structural FCOI.
+- Extend the implemented Boolean structural-FCOI slice with reviewed causal inputs, a separate near-match census and scalability comparisons; see docs/fcoi-engine-v1/boolean-vertical-slice.md.
 - Add uncertainty propagation for probabilistic FCOI and pessimistic upper-bound budgeting.
 - Convert the A0 Anchor specification into an executable state-machine model.
 - Build a graph-external empirical witness to reduce dependence on a shared causal ontology.

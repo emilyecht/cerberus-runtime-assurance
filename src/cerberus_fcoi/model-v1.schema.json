@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CERBERUS Structural FCOI Boolean Model 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "model_id", "model_version", "failure_class", "evidence_status", "assumptions", "undeveloped_events", "root_causes", "nodes", "top_events"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "model_id": {"$ref": "#/$defs/id"},
+    "model_version": {"type": "string", "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"},
+    "failure_class": {"$ref": "#/$defs/id"},
+    "evidence_status": {"enum": ["reviewed", "unreviewed", "incomplete"]},
+    "assumptions": {"type": "array", "maxItems": 128, "items": {"type": "string", "minLength": 1}},
+    "undeveloped_events": {"type": "array", "uniqueItems": true, "maxItems": 128, "items": {"type": "string", "minLength": 1}},
+    "root_causes": {
+      "type": "array", "maxItems": 32,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "description", "evidence_refs"],
+        "properties": {
+          "id": {"$ref": "#/$defs/id"},
+          "description": {"type": "string", "minLength": 1},
+          "evidence_refs": {"$ref": "#/$defs/refs"}
+        }
+      }
+    },
+    "nodes": {"type": "array", "minItems": 1, "maxItems": 128, "items": {"$ref": "#/$defs/node"}},
+    "top_events": {
+      "type": "object", "minProperties": 2, "maxProperties": 16,
+      "propertyNames": {"$ref": "#/$defs/id"},
+      "additionalProperties": {"$ref": "#/$defs/id"}
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_.:-]{0,63}$"},
+    "refs": {"type": "array", "maxItems": 128, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "node": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["id", "type", "root_cause", "mechanism_refs"],
+          "properties": {
+            "id": {"$ref": "#/$defs/id"}, "type": {"const": "basic_event"},
+            "root_cause": {"$ref": "#/$defs/id"}, "mechanism_refs": {"$ref": "#/$defs/refs"}
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["id", "type", "inputs", "mechanism_refs"],
+          "properties": {
+            "id": {"$ref": "#/$defs/id"}, "type": {"enum": ["and_gate", "or_gate"]},
+            "inputs": {"type": "array", "minItems": 1, "maxItems": 32, "items": {"$ref": "#/$defs/id"}},
+            "mechanism_refs": {"$ref": "#/$defs/refs"}
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["id", "type", "value", "mechanism_refs"],
+          "properties": {
+            "id": {"$ref": "#/$defs/id"}, "type": {"const": "constant"},
+            "value": {"type": "boolean"}, "mechanism_refs": {"$ref": "#/$defs/refs"}
+          }
+        }
+      ]
+    }
+  }
+}

@@ -242,6 +242,12 @@ be a reviewed directed causal graph containing root causes, measured environment
 
 ### Structural FCOI
 
+The [Boolean vertical slice](docs/fcoi-engine-v1/boolean-vertical-slice.md) now
+implements a frozen static AND/OR schema, exact bounded minimal-cut-set
+enumeration, model-relative overlap and project-authored validation fixtures.
+It is a design-time reference tool, not a runtime independence estimator or the
+complete research plan. No authority is granted by its output.
+
 Let $M_{i,k}$ be the family of minimal cut sets sufficient to produce $F_{i,k}$. The exact-match structural overlap between layers $i$ and $j$ is
 
 ```math
@@ -605,7 +611,7 @@ This is a research-positioning statement, not an exhaustive search or patentabil
 | Matched-model experiment | Implemented and reproducible | Pipeline verification only; no realistic-difficulty claim |
 | Adversarial Casebook | Implemented research artifact | Scenario library is not exhaustive or a certified FMEA/PRA |
 | Anchor specification | Implemented specification artifact | No flight hardware or formally verified implementation |
-| Structural FCOI engine | Specified, not implemented | Requires reviewed causal graphs and cut-set tooling |
+| Structural FCOI Boolean vertical slice | Implemented reference enumeration and exact model-relative overlap | Static AND/OR/constants only; frozen schema, hand fixtures and truth-table cross-checks; full causal review/near-match engine still incomplete |
 | Probabilistic FCOI estimator | Specified, not implemented | Requires calibrated root-cause, propagation, and marginal-failure models |
 | Sentinel interrogation | Optional, proposed | No safety-case credit without channel-specific HIL validation |
 | Graph-external witness | Proposed | Algorithm and independence argument remain open |
@@ -618,7 +624,7 @@ The next verification sequence is:
 1. compare residual correlation against raw correlation, partial/rank correlation, CUSUM, Page–Hinkley, and simple ensembles using identical seed partitions;
 2. introduce nonstationarity, missing and bursty telemetry, timestamp drift, maneuver transients, degrading environment sensors, and benign unmodeled stimuli;
 3. pre-register thresholds and acceptance criteria before held-out evaluation;
-4. implement a structural cut-set engine and test near-match weighting against reviewed examples;
+4. extend the Boolean cut-set vertical slice with reviewed causal models and a separate near-match census before researching weighting;
 5. build a graph-external witness with a separate representation and one-way authority effect;
 6. evaluate authority chattering, time at level, recovery latency, and denial-of-availability behavior;
 7. conduct channel-specific HIL testing before any active sentinel receives safety-case credit.

@@ -25,9 +25,9 @@
   },
   {
     "component": "Exact structural FCOI cut-set engine",
-    "classification": "Specified, not implemented",
-    "evidence": "Formal definition in v3.4",
-    "limits": "Requires causal graphs, FMEA inputs, and cut-set tooling."
+    "classification": "Implemented Boolean reference vertical slice; full v1 incomplete",
+    "evidence": "src/cerberus_fcoi; frozen Boolean schema 1.0.0; ten hand-calculated fixtures; exhaustive truth-table and fixed-seed small-DAG cross-checks",
+    "limits": "Static monotone AND/OR/constants, bounded exact enumeration and model-relative overlap only. No causal discovery/completeness, full near-match census, probabilities, runtime authority, independent validation or flight safety case."
   },
   {
     "component": "Probabilistic FCOI estimator",
