@@ -8,6 +8,7 @@ import hashlib
 from importlib.resources import files
 from itertools import combinations
 import json
+import os
 from pathlib import Path
 import random
 import subprocess
@@ -175,6 +176,49 @@ class VerticalSliceTests(unittest.TestCase):
             self.assertEqual(failed.returncode, 2)
             self.assertEqual(failed.stdout, "")
             self.assertIn("No result", failed.stderr)
+
+    def test_three_layer_authority_example_has_hand_calculated_cut_sets(self):
+        model = json.loads((ROOT / "examples/fcoi/authority-boundary.json").read_text())
+        expected = {
+            "Guardian": [["GuardianVerifier"], ["SharedStore"]],
+            "Kernel": [["KernelVerifier"], ["SharedStore"]],
+            "Controller": [["ControllerKey"], ["GuardianVerifier", "KernelVerifier"]],
+        }
+        report = analyze_model(model)
+        for layer, family in expected.items():
+            self.assertEqual(report["layers"][layer]["minimal_cut_sets"], family)
+            self.assertEqual(truth_table_minimals(model, model["top_events"][layer]), family)
+        pairs = {tuple(p["layers"]): p for p in report["pairs"]}
+        overlap = pairs[("Guardian", "Kernel")]
+        self.assertEqual((overlap["intersection_count"], overlap["union_count"]), (1, 3))
+        self.assertEqual(overlap["exact_structural_fcoi"], 1/3)
+        for layer in ("Guardian", "Kernel"):
+            pair = pairs[("Controller", layer)]
+            self.assertEqual(pair["exact_structural_fcoi"], 0)
+            self.assertEqual(pair["shared_root_causes"], [layer + "Verifier"])
+
+    def test_process_hash_seeds_preserve_three_layer_cli_output(self):
+        command = [sys.executable, "-m", "cerberus_fcoi", str(ROOT / "examples/fcoi/authority-boundary.json")]
+        outputs = [subprocess.run(command, env={**os.environ, "PYTHONHASHSEED": str(seed)},
+                                  text=True, capture_output=True, check=True).stdout
+                   for seed in (0, 1, 731, 2147483647)]
+        self.assertTrue(all(value == outputs[0] for value in outputs))
+
+    def test_invalid_unicode_never_emits_a_report_or_traceback(self):
+        model = self.example()
+        model["assumptions"].append("invalid scalar " + chr(0xd800))
+        with self.assertRaises(ModelError):
+            analyze_model(model)
+        with TemporaryDirectory() as directory:
+            path = Path(directory) / "invalid.json"
+            for raw in (b'\xff', json.dumps(model).encode("utf-8")):
+                path.write_bytes(raw)
+                failed = subprocess.run([sys.executable, "-m", "cerberus_fcoi", str(path)],
+                                        text=True, capture_output=True)
+                self.assertEqual(failed.returncode, 2)
+                self.assertEqual(failed.stdout, "")
+                self.assertIn("No result", failed.stderr)
+                self.assertNotIn("Traceback", failed.stderr)
 
 
 if __name__ == "__main__":
