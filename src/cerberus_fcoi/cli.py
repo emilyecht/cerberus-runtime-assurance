@@ -17,7 +17,7 @@ def main():
     args = parser.parse_args()
     try:
         report = analyze_model(parse_model(args.model.read_text(encoding="utf-8")))
-    except (ModelError, OSError) as exc:
+    except (ModelError, OSError, UnicodeError) as exc:
         print(f"No result: {exc}", file=sys.stderr)
         return 2
     print(json.dumps(report, sort_keys=True, indent=2, allow_nan=False))

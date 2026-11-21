@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0.0",
+  "model_id": "illustrative-authority-boundary",
+  "model_version": "1.0.0",
+  "failure_class": "unauthorized-simulated-receipt",
+  "evidence_status": "unreviewed",
+  "assumptions": [
+    "Illustrative Boolean sufficiency assumptions only; no measured CERBERUS Cyber fault model",
+    "SharedStore represents a hypothetical common trusted-history dependency",
+    "Controller failure is assumed sufficient on key compromise or joint verifier failure"
+  ],
+  "undeveloped_events": [],
+  "root_causes": [
+    {"id": "SharedStore", "description": "Trusted replay history loses completeness", "evidence_refs": []},
+    {"id": "GuardianVerifier", "description": "Guardian verifier fails in the hypothesized model", "evidence_refs": []},
+    {"id": "KernelVerifier", "description": "Kernel verifier fails in the hypothesized model", "evidence_refs": []},
+    {"id": "ControllerKey", "description": "Trusted controller key is compromised", "evidence_refs": []}
+  ],
+  "nodes": [
+    {"id": "store", "type": "basic_event", "root_cause": "SharedStore", "mechanism_refs": []},
+    {"id": "guardian", "type": "basic_event", "root_cause": "GuardianVerifier", "mechanism_refs": []},
+    {"id": "kernel", "type": "basic_event", "root_cause": "KernelVerifier", "mechanism_refs": []},
+    {"id": "key", "type": "basic_event", "root_cause": "ControllerKey", "mechanism_refs": []},
+    {"id": "guardian-fail", "type": "or_gate", "inputs": ["store", "guardian"], "mechanism_refs": []},
+    {"id": "kernel-fail", "type": "or_gate", "inputs": ["store", "kernel"], "mechanism_refs": []},
+    {"id": "both-verifiers", "type": "and_gate", "inputs": ["guardian", "kernel"], "mechanism_refs": []},
+    {"id": "controller-fail", "type": "or_gate", "inputs": ["key", "both-verifiers"], "mechanism_refs": []}
+  ],
+  "top_events": {"Guardian": "guardian-fail", "Kernel": "kernel-fail", "Controller": "controller-fail"}
+}

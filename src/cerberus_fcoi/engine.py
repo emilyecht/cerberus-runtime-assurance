@@ -138,7 +138,10 @@ def analyze_model(model: dict, *, max_cut_sets: int = 1024, max_candidates: int 
         if type(value) is not int or value < 1:
             raise ModelError("enumeration budgets must be positive integers")
     data, nodes, order = _validated(model)
-    encoded = json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
+    try:
+        encoded = json.dumps(data, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode("utf-8")
+    except UnicodeError as exc:
+        raise ModelError("model contains invalid Unicode scalar values") from exc
     warnings = ["Model-relative design-time screening; zero exact overlap does not establish independence.",
                 "Evidence review status is a model declaration, not independently verified by this tool."]
     incomplete = data["evidence_status"] == "incomplete" or bool(data["undeveloped_events"])
@@ -172,7 +175,7 @@ def analyze_model(model: dict, *, max_cut_sets: int = 1024, max_candidates: int 
     return {
         "report_version": "0.1.0", "model_schema_version": data["schema_version"],
         "model_id": data["model_id"], "model_version": data["model_version"],
-        "failure_class": data["failure_class"], "normalized_model_sha256": hashlib.sha256(encoded.encode()).hexdigest(),
+        "failure_class": data["failure_class"], "normalized_model_sha256": hashlib.sha256(encoded).hexdigest(),
         "analysis_kind": "design-time-structural-screening", "evidence_status": data["evidence_status"],
         "assumptions": data["assumptions"], "undeveloped_events": data["undeveloped_events"],
         "mechanism_refs": {node_id: node["mechanism_refs"] for node_id, node in sorted(nodes.items())},
